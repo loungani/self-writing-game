@@ -1,5 +1,5 @@
 package game;
 
 public enum Option {
-	START_GAME, LOAD_SAVE,
+	NONE, START_GAME, LOAD_SAVE, EXIT,
 }
