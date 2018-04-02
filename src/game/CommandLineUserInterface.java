@@ -18,12 +18,21 @@ public class CommandLineUserInterface implements UserInterface {
 		in = new Scanner(System.in);
 		promptions = new TreeMap<Option, String>();
 	}
-
+	
+	/**
+	 * Prompts for all options added to the UI.
+	 * @return a UIResponse with selected option and associated arguments
+	 */
 	@Override
 	public UIResponse prompt() {
 		return prompt((Option[]) promptions.keySet().toArray());
 	}
 	
+	/**
+	 * Prompts for a subset of options.
+	 * @param a subset of options as an array
+	 * @return a UIResponse with selected option and associated arguments
+	 */
 	@Override
 	public UIResponse prompt(Option[] options) {
 		List<String> prompts = new ArrayList<String>();
@@ -70,6 +79,10 @@ public class CommandLineUserInterface implements UserInterface {
 			inform("Loading saved game.\n");
 		} else if (option == Option.EXIT) {
 			inform("Exit game.");
+		} else if (option == Option.NEW_GAMEFILE) {
+			inform("Create new gamefile.\n");
+		} else if (option == Option.RETURN) {
+			inform("Returning to previous menu.\n");
 		} else {
 			throw new IllegalArgumentException("Option didn't match with any possible options. Should be unreachable.");
 		}
