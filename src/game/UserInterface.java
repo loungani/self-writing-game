@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Map;
+
 public interface UserInterface {
 	
 	// subclasses must implement these methods
@@ -8,6 +10,6 @@ public interface UserInterface {
 	public UIResponse prompt(Option option);
 	public void addOption(String text, Option option);
 	public void inform(String message);
+	public Path decide(Map<PathChoice, Path> nextPaths);
 
-	
 }
