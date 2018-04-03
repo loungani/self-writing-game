@@ -46,7 +46,6 @@ public class Game {
 					this.gameFile = create(gameFileName);
 					save(gameFile);
 					start(new Path());
-					System.out.println("Here2");
 				}
 			} else if (option == Option.RETURN) {
 				// TODO: return to previous menu?
@@ -57,7 +56,6 @@ public class Game {
 				throw new IllegalArgumentException("Unlisted option passed to createNewGameFile.");
 			}
 		}
-		System.out.println("Here3");
 	}
 	
 	private void start(Path path) {
@@ -79,11 +77,11 @@ public class Game {
 				throw new IllegalArgumentException("Unlisted option passed to start.");
 			}
 		}
-		System.out.println("Here0");
-		// Here's the problem
-		Path nextPath = ui.decide(path.getNextPaths());
-		start(nextPath);
-		System.out.println("Here1");
+		
+		if (running) {
+			Path nextPath = ui.decide(path.getNextPaths());
+			start(nextPath);
+		}
 	}
 
 	private void loadSaveFile() {
