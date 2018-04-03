@@ -64,7 +64,9 @@ public class CommandLineUserInterface implements UserInterface {
 			inform("Enter name for new gamefile.");
 			args.add(getInputString());
 		} else if (option == Option.MAIN_MENU) {
-			inform("Returning to previous menu.");
+			inform("Returning to main menu.");
+		} else if (option == Option.RESTART) {
+			inform("Restarting the game!");
 		} else if (option == Option.CREATE_NEW_PATH) {
 			inform("Enter text that player will see:");
 			String currentPathText = getInputString();
@@ -81,6 +83,10 @@ public class CommandLineUserInterface implements UserInterface {
 					needInput = false;
 				}
 			}
+		} else if (option == Option.MAKE_DEATH_NODE) {
+			inform("Enter the text that players will see upon losing the game.");
+			String deathPathText = getInputString();
+			args.add(deathPathText);
 		} else if (option == Option.YES) {
 			// Do nothing
 		} else if (option == Option.NO) {
