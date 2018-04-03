@@ -43,17 +43,7 @@ public class CommandLineUserInterface implements UserInterface {
 	public UIResponse prompt(Option[] options) {
 		List<String> prompts = new ArrayList<String>();
 		for (Option option : options) { prompts.add(promptions.get(option)); }
-		
-		for (int i = 0; i < prompts.size(); i++) {
-			inform("Option " + (i+1) + ") " + prompts.get(i) + "\n");
-		}
-		inform("Choose option (enter number): \n");
-		int optionNum = getInputInt();
-		while (optionNum < 1 || optionNum > options.length) {
-			inform("Invalid option. Please choose between 1 to " + options.length);
-			optionNum = getInputInt();
-		}
-		optionNum--; // Computers like to start arrays at 0, humans like to start lists at 1
+		int optionNum = getOptionNum(prompts, options.length);
 		Option option = options[optionNum];
 		return prompt(option);
 	}
@@ -121,12 +111,6 @@ public class CommandLineUserInterface implements UserInterface {
 		}
 	}
 
-	@Override
-	public void inform(String message) {
-		out.print(message + "\n");
-	}
-	
-	
 	/*
 	 * (non-Javadoc)
 	 * TODO: Currently has exact same functionality as prompt.
@@ -138,23 +122,35 @@ public class CommandLineUserInterface implements UserInterface {
 		List<String> prompts = new ArrayList<String>();
 		List<PathChoice> choices = new ArrayList<PathChoice>();
 		Set<PathChoice> setOfChoices = nextPaths.keySet();
+		
 		for (PathChoice choice : setOfChoices) { 
 			prompts.add(choice.getText()); 
 			choices.add(choice);
 		}
+		
+		int optionNum = getOptionNum(prompts, choices.size());
+		PathChoice option = choices.get(optionNum);
+		Path selected = nextPaths.get(option);
+		return selected;
+	}
+	
+	@Override
+	public void inform(String message) {
+		out.print(message + "\n");
+	}
+	
+	private int getOptionNum(List<String> prompts, int totalOptions) {
 		for (int i = 0; i < prompts.size(); i++) {
 			inform("Option " + (i+1) + ") " + prompts.get(i) + "\n");
 		}
 		inform("Choose option (enter number): \n");
 		int optionNum = getInputInt();
-		while (optionNum < 1 || optionNum > choices.size()) {
-			inform("Invalid option. Please choose between 1 to " + choices.size());
+		while (optionNum < 1 || optionNum > totalOptions) {
+			inform("Invalid option. Please choose between 1 to " + totalOptions);
 			optionNum = getInputInt();
 		}
 		optionNum--; // Computers like to start arrays at 0, humans like to start lists at 1
-		PathChoice option = choices.get(optionNum);
-		Path selected = nextPaths.get(option);
-		return selected;
+		return optionNum;
 	}
 	
 	private int getInputInt() {
