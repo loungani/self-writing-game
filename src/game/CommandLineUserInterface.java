@@ -73,7 +73,7 @@ public class CommandLineUserInterface implements UserInterface {
 		} else if (option == Option.NEW_GAMEFILE) {
 			inform("Enter name for new gamefile.");
 			args.add(getInputString());
-		} else if (option == Option.RETURN) {
+		} else if (option == Option.MAIN_MENU) {
 			inform("Returning to previous menu.");
 		} else if (option == Option.CREATE_NEW_PATH) {
 			inform("Enter text that player will see:");

@@ -14,7 +14,7 @@ public class Game {
 		ui.addOption("Load saved game.", Option.LOAD_SAVE);
 		ui.addOption("Exit program.", Option.EXIT);
 		ui.addOption("Create new gamefile.", Option.NEW_GAMEFILE);
-		ui.addOption("Return to previous menu.", Option.RETURN);
+		ui.addOption("Return to previous menu.", Option.MAIN_MENU);
 		ui.addOption("Create new path.", Option.CREATE_NEW_PATH);
 	}
 	
@@ -32,7 +32,7 @@ public class Game {
 	}
 
 	private void createNewGameFile() {
-		Option[] gameFileOptions = {Option.NEW_GAMEFILE, Option.RETURN};
+		Option[] gameFileOptions = {Option.NEW_GAMEFILE, Option.MAIN_MENU};
 		Boolean needInput = true;
 		while (needInput) {
 			UIResponse response = ui.prompt(gameFileOptions);
@@ -47,7 +47,7 @@ public class Game {
 					save(gameFile);
 					start(new Path());
 				}
-			} else if (option == Option.RETURN) {
+			} else if (option == Option.MAIN_MENU) {
 				// TODO: return to previous menu?
 				mainMenu();
 				needInput = false;
@@ -58,29 +58,31 @@ public class Game {
 		}
 	}
 	
+	// TODO: add option to return to main menu
 	private void start(Path path) {
 		ui.inform(path.read());
-		if (path.isEmpty()) {
-			Option[] emptyPathOptions = {Option.CREATE_NEW_PATH, Option.EXIT};
-			UIResponse response = ui.prompt(emptyPathOptions);
-			Option option = response.getOption();
-			if (option == Option.CREATE_NEW_PATH) {
-				String pathText = response.getArgs().remove(0);
-				path.modify(pathText);
-				for (String choiceText : response.getArgs()) {
-					PathChoice choice = new PathChoice(choiceText);
-					path.add(choice);
-				}
-			} else if (option == Option.EXIT) {
-				quit();
-			} else {
-				throw new IllegalArgumentException("Unlisted option passed to start.");
-			}
-		}
-		
+		if (path.isEmpty()) { fill(path); }
 		if (running) {
 			Path nextPath = ui.decide(path.getNextPaths());
 			start(nextPath);
+		}
+	}
+
+	private void fill(Path path) {
+		Option[] emptyPathOptions = {Option.CREATE_NEW_PATH, Option.EXIT};
+		UIResponse response = ui.prompt(emptyPathOptions);
+		Option option = response.getOption();
+		if (option == Option.CREATE_NEW_PATH) {
+			String pathText = response.getArgs().remove(0);
+			path.modify(pathText);
+			for (String choiceText : response.getArgs()) {
+				PathChoice choice = new PathChoice(choiceText);
+				path.add(choice);
+			}
+		} else if (option == Option.EXIT) {
+			quit();
+		} else {
+			throw new IllegalArgumentException("Unlisted option passed to start.");
 		}
 	}
 
