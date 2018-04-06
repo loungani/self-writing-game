@@ -66,18 +66,18 @@ public class CommandLineUserInterface implements UserInterface {
 		} else if (option == Option.MAIN_MENU) {
 			inform("Returning to main menu.");
 		} else if (option == Option.RESTART) {
-			inform("Restarting the game!");
+			inform("Restarting the game!\n");
 		} else if (option == Option.CREATE_NEW_PATH) {
 			inform("Enter text that player will see:");
 			String currentPathText = getInputString();
 			args.add(currentPathText);
-			inform("Enter at least one possible choice for players:");
+			inform("Enter at least one possible choice for players:\n");
 			Boolean needInput = true;
 			while (needInput) {
-				inform("New choice text:");
+				inform("New choice text:\n");
 				String newPathText = getInputString();
 				args.add(newPathText);
-				inform("Finished adding choice?");
+				inform("Finished adding choice?\n");
 				Boolean finishedAddingChoices = getYesOrNo();
 				if (finishedAddingChoices) {
 					needInput = false;
@@ -142,10 +142,11 @@ public class CommandLineUserInterface implements UserInterface {
 	
 	@Override
 	public void inform(String message) {
-		out.print(message + "\n");
+		out.print(message);
 	}
 	
 	private int getOptionNum(List<String> prompts, int totalOptions) {
+		inform("\n");
 		for (int i = 0; i < prompts.size(); i++) {
 			inform("Option " + (i+1) + ") " + prompts.get(i) + "\n");
 		}

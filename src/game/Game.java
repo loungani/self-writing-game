@@ -15,7 +15,7 @@ public class Game {
 		ui.addOption("Load saved game.", Option.LOAD_SAVE);
 		ui.addOption("Exit program.", Option.EXIT);
 		ui.addOption("Create new gamefile.", Option.NEW_GAMEFILE);
-		ui.addOption("Return to previous menu.", Option.MAIN_MENU);
+		ui.addOption("Return to main menu.", Option.MAIN_MENU);
 		ui.addOption("Create new path.", Option.CREATE_NEW_PATH);
 		ui.addOption("Make this path a 'game over' node for the player.", Option.MAKE_DEATH_NODE);
 		ui.addOption("Restart this game from the beginning.", Option.RESTART);
@@ -66,7 +66,7 @@ public class Game {
 		ui.inform(path.read());
 		if (path.isEmpty()) { fill(path); }
 		if (path.isDeathNode()) {
-			ui.inform("Sorry. You lose!");
+			ui.inform("\nSorry. You lose!");
 			Option[] gameOverOptions = {Option.MAIN_MENU, Option.RESTART, Option.EXIT};
 			UIResponse response = ui.prompt(gameOverOptions);
 			Option option = response.getOption();
@@ -98,10 +98,12 @@ public class Game {
 				PathChoice choice = new PathChoice(choiceText);
 				path.add(choice);
 			}
+			ui.inform(path.read());
 		} else if (option == Option.MAKE_DEATH_NODE) {
 			String pathText = response.getArgs().remove(0);
 			path.modify(pathText);
 			path.makeDeathNode();
+			ui.inform(path.read());
 		} else if (option == Option.EXIT) {
 			quit();
 		} else {
@@ -121,7 +123,7 @@ public class Game {
 	}
 
 	private File create(String gameFile) {
-		ui.inform("Creating gamefile: " + gameFile + "\n");
+		ui.inform("Creating gamefile: " + gameFile + "\n\n");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -142,6 +144,5 @@ public class Game {
 			System.out.println("Testing outer loop. Probably shouldn't hit here unless about to exit.");
 		}
 	}
-		
-
+	
 }
