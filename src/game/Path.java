@@ -7,11 +7,13 @@ public class Path {
 	private Map<PathChoice, Path> paths;
 	private String pathText;
 	private Boolean deathNode;
+	private Boolean winNode;
 	
 	public Path() {
 		paths = new TreeMap<PathChoice, Path>();
 		pathText = "Looks like you have nothing here!";
 		deathNode = false;
+		winNode = false;
 	}
 	
 	public void makeDeathNode() {
@@ -22,8 +24,23 @@ public class Path {
 		return deathNode;
 	}
 	
+	public void makeWinNode() {
+		winNode = true;
+	}
+	
+	public Boolean isWinNode() {
+		return winNode;
+	}
+	
+	public String gameOverMessage() {
+		if (deathNode && winNode) { throw new IllegalStateException("Path is both win and lose node."); }
+		if (deathNode) { return "\nSorry! You lose."; }
+		if (winNode) { return "\nCongratulations! You win."; }
+		throw new IllegalArgumentException("gameOverMessage called without win or lose node.");
+	}
+	
 	public Boolean isEmpty() {
-		if (deathNode) {
+		if (deathNode || winNode) {
 			return false;
 		}
 		return paths.isEmpty();

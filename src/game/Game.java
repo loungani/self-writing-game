@@ -17,7 +17,8 @@ public class Game {
 		ui.addOption("Create new gamefile.", Option.NEW_GAMEFILE);
 		ui.addOption("Return to main menu.", Option.MAIN_MENU);
 		ui.addOption("Create new path.", Option.CREATE_NEW_PATH);
-		ui.addOption("Make this path a 'game over' node for the player.", Option.MAKE_DEATH_NODE);
+		ui.addOption("Make this path a 'you lose' node for the player.", Option.MAKE_DEATH_NODE);
+		ui.addOption("Make this path a 'you win!' node for the player.", Option.MAKE_WIN_NODE);
 		ui.addOption("Restart this game from the beginning.", Option.RESTART);
 	}
 	
@@ -65,8 +66,8 @@ public class Game {
 	private void start(Path path) {
 		ui.inform(path.read());
 		if (path.isEmpty()) { fill(path); }
-		if (path.isDeathNode()) {
-			ui.inform("\nSorry. You lose!");
+		if (path.isDeathNode() || path.isWinNode()) {
+			ui.inform(path.gameOverMessage());
 			Option[] gameOverOptions = {Option.MAIN_MENU, Option.RESTART, Option.EXIT};
 			UIResponse response = ui.prompt(gameOverOptions);
 			Option option = response.getOption();
@@ -87,8 +88,9 @@ public class Game {
 		}
 	}
 
+	// TODO: Refactoring here for abstraction and DRY.
 	private void fill(Path path) {
-		Option[] emptyPathOptions = {Option.CREATE_NEW_PATH, Option.MAKE_DEATH_NODE, Option.EXIT};
+		Option[] emptyPathOptions = {Option.CREATE_NEW_PATH, Option.MAKE_DEATH_NODE, Option.MAKE_WIN_NODE, Option.EXIT};
 		UIResponse response = ui.prompt(emptyPathOptions);
 		Option option = response.getOption();
 		if (option == Option.CREATE_NEW_PATH) {
@@ -103,6 +105,11 @@ public class Game {
 			String pathText = response.getArgs().remove(0);
 			path.modify(pathText);
 			path.makeDeathNode();
+			ui.inform(path.read());
+		} else if (option == Option.MAKE_WIN_NODE) {
+			String pathText = response.getArgs().remove(0);
+			path.modify(pathText);
+			path.makeWinNode();
 			ui.inform(path.read());
 		} else if (option == Option.EXIT) {
 			quit();

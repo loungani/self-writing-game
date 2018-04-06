@@ -87,6 +87,10 @@ public class CommandLineUserInterface implements UserInterface {
 			inform("Enter the text that players will see upon losing the game.");
 			String deathPathText = getInputString();
 			args.add(deathPathText);
+		} else if (option == Option.MAKE_WIN_NODE) {
+			inform("Enter the text that players will see upon winning the game.");
+			String deathPathText = getInputString();
+			args.add(deathPathText);
 		} else if (option == Option.YES) {
 			// Do nothing
 		} else if (option == Option.NO) {
