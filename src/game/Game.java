@@ -1,5 +1,9 @@
 package game;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class Game {
@@ -168,8 +172,16 @@ public class Game {
 	}
 
 	private boolean alreadyExists(String gameFile) {
-		// TODO Auto-generated method stub
-		return false;
+		String current_dir;
+		try {
+			current_dir = new java.io.File(".").getCanonicalPath();
+			java.nio.file.Path filePath = Paths.get(current_dir + "\\src\\" + gameFile);
+			return Files.exists(filePath, LinkOption.NOFOLLOW_LINKS);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new IllegalStateException("Should not reach here.");
+		}
 	}
 	
 	private void log(String event, String logfile) {

@@ -35,5 +35,4 @@ public class Logger {
 		catch (Exception e) { e.printStackTrace(); }
 		finally { try { writer.close(); } catch (Exception e) { e.printStackTrace(); } }
 	}
-	
 }
