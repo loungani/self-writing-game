@@ -1,12 +1,13 @@
 package game;
 
-import java.io.File;
+import java.util.ArrayList;
 
 public class Game {
 	private Boolean running;
 	private UserInterface ui;
-	private File gameFile;
 	private Path beginning;
+	private Logger logger;
+	private String gameFile;
 	
 	public Game() {
 		running = true;
@@ -20,6 +21,8 @@ public class Game {
 		ui.addOption("Make this path a 'you lose' node for the player.", Option.MAKE_DEATH_NODE);
 		ui.addOption("Make this path a 'you win!' node for the player.", Option.MAKE_WIN_NODE);
 		ui.addOption("Restart this game from the beginning.", Option.RESTART);
+		ui.addOption("Yes.", Option.YES);
+		ui.addOption("No.", Option.NO);
 	}
 	
 	private void mainMenu() {
@@ -42,13 +45,13 @@ public class Game {
 			UIResponse response = ui.prompt(gameFileOptions);
 			Option option = response.getOption();
 			if (option == Option.NEW_GAMEFILE) {
-				String gameFileName = response.getArgs().get(0);
-				if (alreadyExists(gameFileName)) {
+				String gameFile = response.getArgs().get(0);
+				if (alreadyExists(gameFile)) {
 					ui.inform("Sorry, a gamefile with this name already exists.\n");
 				} else {
 					needInput = false;
-					this.gameFile = create(gameFileName);
-					save(gameFile);
+					this.gameFile = gameFile;
+					create(gameFile);
 					beginning = new Path();
 					start(beginning);
 				}
@@ -123,25 +126,54 @@ public class Game {
 		
 	}
 
-	private void save(File gameFile) {
-		// ui.inform("Saving gamefile: " + gameFile + "\n");
-		// TODO Auto-generated method stub
-		
+	// TODO: Should use StringBuilder, current implementation is an anti-pattern.
+	// TODO: Set a new delimiter, such a semicolon. Make sure to scrub inputs for semicolons.
+	private void save(Path current, ArrayList<String> saveList, int outsideCounter) {
+		String line = outsideCounter + "," + current.read();
+		if (current.isDeathNode()) { line += ",lose"; }
+		if (current.isWinNode()) { line += ",win"; }
+		int choiceCounter = 1;
+		for (PathChoice choice : current.getNextPaths().keySet()) {
+			int numChoices = current.getNextPaths().keySet().size();
+			line += "," + choice.getText() + "," + (outsideCounter+choiceCounter);
+			Path nextPath = current.getNextPaths().get(choice);
+			save(nextPath, saveList, outsideCounter+choiceCounter);
+			choiceCounter++;
+		}
+		saveList.add(line);
+		// Should execute only once, at the end of the recursive stack
+		if (current == beginning) {
+			for (String s : saveList) {
+				log(s, gameFile);
+			}
+		}
 	}
 
-	private File create(String gameFile) {
+	private void create(String gameFile) {
 		ui.inform("Creating gamefile: " + gameFile + "\n\n");
-		// TODO Auto-generated method stub
-		return null;
+		log(gameFile + " opened.", gameFile);
 	}
 	
 	private void quit() {
+		ui.inform("\nWould you like to save your game before quitting?");
+		Option[] saveOptions = {Option.YES, Option.NO};
+		UIResponse response = ui.prompt(saveOptions);
+		Option option = response.getOption();
+		if (option == Option.YES) {
+			ui.inform("Saving gamefile: " + gameFile + "\n");
+			save(beginning, new ArrayList<String>(), 0);
+		}
 		running = false;
 	}
 
 	private boolean alreadyExists(String gameFile) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	private void log(String event, String logfile) {
+		logger = Logger.getInstance(logfile);
+		logger.log(event);
 	}
 
 	public static void main(String[] args) {

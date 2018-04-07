@@ -107,7 +107,7 @@ public class CommandLineUserInterface implements UserInterface {
 			promptions.put(Option.YES, "Yes.");
 		}
 		if (!promptions.containsKey(Option.NO)) {
-			promptions.put(Option.NO, "No");
+			promptions.put(Option.NO, "No.");
 		}
 		Option[] yesOrNoOptions = {Option.YES, Option.NO};
 		UIResponse response = prompt(yesOrNoOptions);
