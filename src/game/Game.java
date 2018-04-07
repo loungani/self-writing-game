@@ -128,16 +128,17 @@ public class Game {
 
 	// TODO: Should use StringBuilder, current implementation is an anti-pattern.
 	// TODO: Set a new delimiter, such a semicolon. Make sure to scrub inputs for semicolons.
-	private void save(Path current, ArrayList<String> saveList, int outsideCounter) {
-		String line = outsideCounter + "," + current.read();
+	private void save(Path current, ArrayList<String> saveList, int outsideCounter, int numChoices, int numChoicesPrev) {
+		String line = (outsideCounter+numChoicesPrev-1) + "," + current.read();
 		if (current.isDeathNode()) { line += ",lose"; }
 		if (current.isWinNode()) { line += ",win"; }
 		int choiceCounter = 1;
+		numChoicesPrev = numChoices;
 		for (PathChoice choice : current.getNextPaths().keySet()) {
-			int numChoices = current.getNextPaths().keySet().size();
-			line += "," + choice.getText() + "," + (outsideCounter+choiceCounter);
+			numChoices = current.getNextPaths().keySet().size();
+			line += "," + choice.getText() + "," + (outsideCounter+choiceCounter+numChoicesPrev-1);
 			Path nextPath = current.getNextPaths().get(choice);
-			save(nextPath, saveList, outsideCounter+choiceCounter);
+			save(nextPath, saveList, outsideCounter+choiceCounter, numChoices, numChoicesPrev);
 			choiceCounter++;
 		}
 		saveList.add(line);
@@ -161,7 +162,7 @@ public class Game {
 		Option option = response.getOption();
 		if (option == Option.YES) {
 			ui.inform("Saving gamefile: " + gameFile + "\n");
-			save(beginning, new ArrayList<String>(), 0);
+			save(beginning, new ArrayList<String>(), 0, 1, 1);
 		}
 		running = false;
 	}
