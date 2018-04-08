@@ -60,8 +60,8 @@ public class CommandLineUserInterface implements UserInterface {
 			inform("Loading saved game.");
 		} else if (option == Option.EXIT) {
 			inform("Exit game.");
-		} else if (option == Option.NEW_GAMEFILE) {
-			inform("Enter name for new gamefile.");
+		} else if (option == Option.NEW_GAMEFILE || option == Option.LOAD_GAMEFILE) {
+			inform("Enter name for gamefile.");
 			args.add(getInputString());
 		} else if (option == Option.MAIN_MENU) {
 			inform("Returning to main menu.");
