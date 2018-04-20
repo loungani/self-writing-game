@@ -60,7 +60,7 @@ public class Game {
 				} else {
 					needInput = false;
 					this.gameFile = gameFile;
-					create(gameFile);
+					ui.inform("Creating gamefile: " + gameFile + "\n\n");
 					beginning = new TreeNode<Path>(new Path());
 					start(beginning);
 				}
@@ -132,10 +132,6 @@ public class Game {
 			throw new IllegalArgumentException("Unlisted option passed to fill.");
 		}
 	}
-
-	private void create(String gameFile) {
-		ui.inform("Creating gamefile: " + gameFile + "\n\n");
-	}
 	
 	private void quit() {
 		ui.inform("\nWould you like to save your game before quitting?");
@@ -144,7 +140,7 @@ public class Game {
 		Option option = response.getOption();
 		if (option == Option.YES) {
 			ui.inform("Saving gamefile: " + gameFile + "\n");
-			// save(beginning, new ArrayList<String>(), 0, 1, 1);
+			save(beginning);
 		}
 		running = false;
 	}
@@ -162,11 +158,11 @@ public class Game {
 		}
 	}
 	
-	private void log(String event, String logfile) {
-		logger = Logger.getInstance(logfile);
-		logger.log(event);
+	private void save(TreeNode<Path> beginning) {
+		GameWriter fw = new TextFileWriter();
+		fw.save(gameFile, beginning);
 	}
-
+	
 	public static void main(String[] args) {
 		Game game = new Game();
 		while (game.running) {
