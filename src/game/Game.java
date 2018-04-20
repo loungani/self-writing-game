@@ -78,7 +78,7 @@ public class Game {
 	private void start(TreeNode<Path> node) {
 		Path path = node.getData();
 		ui.inform(path.getPathText());
-		if (node.children.isEmpty()) { fill(node); }
+		if (node.children.isEmpty() && !path.isDeathNode() && !path.isWinNode()) { fill(node); }
 		if (path.isDeathNode() || path.isWinNode()) {
 			ui.inform(path.gameOverMessage());
 			Option[] gameOverOptions = {Option.MAIN_MENU, Option.RESTART, Option.EXIT};
