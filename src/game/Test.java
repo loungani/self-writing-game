@@ -2,6 +2,7 @@ package game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 class Test {
@@ -54,6 +55,31 @@ class Test {
 		
 		assertTrue(!iter.hasNext());
 	}
+	
+	@org.junit.jupiter.api.Test
+	void TreeMethodIterationTest() {
+		TreeNode<Path> a = new TreeNode<Path>(new Path());
+		TreeNode<Path> b = a.addChild(new Path());
+		TreeNode<Path> c = a.addChild(new Path());
+		TreeNode<Path> d = b.addChild(new Path());
+		TreeNode<Path> e = b.addChild(new Path());
+		TreeNode<Path> f = c.addChild(new Path());
+		TreeNode<Path> g = c.addChild(new Path());
+		
+		ArrayList<TreeNode<Path>> expected = new ArrayList<TreeNode<Path>>();
+		expected.add(a);
+		expected.add(b);
+		expected.add(d);
+		expected.add(e);
+		expected.add(c);
+		expected.add(f);
+		expected.add(g);
+		
+		assertEquals(expected, a.toArray());
+		assertEquals(expected, b.toArray());
+		assertEquals(expected, g.toArray());
+	}
+	
 
 }
 

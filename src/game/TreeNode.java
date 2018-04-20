@@ -1,5 +1,6 @@
 package game;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -71,6 +72,19 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
 	public Iterator<TreeNode<T>> iterator() {
 		TreeNodeIter<T> iter = new TreeNodeIter<T>(this);
 		return iter;
+	}
+	
+	public ArrayList<TreeNode<T>> toArray() {
+		if (this.isRoot()) {
+			ArrayList<TreeNode<T>> arr = new ArrayList<TreeNode<T>>();
+			Iterator<TreeNode<T>> iter = this.iterator();
+			while (iter.hasNext()) {
+				arr.add(iter.next());
+			}
+			return arr;
+		} else {
+			return this.parent.toArray();
+		}
 	}
 
 }
