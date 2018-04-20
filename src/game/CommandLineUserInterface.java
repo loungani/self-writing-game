@@ -128,19 +128,17 @@ public class CommandLineUserInterface implements UserInterface {
 	 * @see game.UserInterface#decide(java.util.Map)
 	 */
 	@Override
-	public Path decide(Map<PathChoice, Path> nextPaths) {
+	public TreeNode<Path> decide(List<TreeNode<Path>> nodes) {
 		List<String> prompts = new ArrayList<String>();
-		List<PathChoice> choices = new ArrayList<PathChoice>();
-		Set<PathChoice> setOfChoices = nextPaths.keySet();
+		List<TreeNode<Path>> choices = new ArrayList<TreeNode<Path>>();
 		
-		for (PathChoice choice : setOfChoices) { 
-			prompts.add(choice.getText()); 
-			choices.add(choice);
+		for (TreeNode<Path> node : nodes) {
+			prompts.add(node.getData().getChoiceText());
+			choices.add(node);
 		}
 		
 		int optionNum = getOptionNum(prompts, choices.size());
-		PathChoice option = choices.get(optionNum);
-		Path selected = nextPaths.get(option);
+		TreeNode<Path> selected = choices.get(optionNum);
 		return selected;
 	}
 	

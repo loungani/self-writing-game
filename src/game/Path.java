@@ -1,16 +1,13 @@
 package game;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 public class Path {
-	private Map<PathChoice, Path> paths;
+	private String choiceText;
 	private String pathText;
 	private Boolean deathNode;
 	private Boolean winNode;
 	
 	public Path() {
-		paths = new TreeMap<PathChoice, Path>();
+		choiceText = "No choice text set";
 		pathText = "Looks like you have nothing here!";
 		deathNode = false;
 		winNode = false;
@@ -39,27 +36,20 @@ public class Path {
 		throw new IllegalArgumentException("gameOverMessage called without win or lose node.");
 	}
 	
-	public Boolean isEmpty() {
-		if (deathNode || winNode) {
-			return false;
-		}
-		return paths.isEmpty();
-	}
-	
-	public String read() {
+	public String getPathText() {
 		return pathText;
 	}
-
-	public void modify(String newPathText) {
-		pathText = newPathText;
+	
+	public String getChoiceText() {
+		return choiceText;
 	}
 
-	public void add(PathChoice choice) {
-		paths.put(choice, new Path());
+	public void setPathText(String pathText) {
+		this.pathText = pathText;
 	}
 	
-	public Map<PathChoice, Path> getNextPaths() {
-		return paths;
+	public void setChoiceText(String choiceText) {
+		this.choiceText = choiceText;
 	}
 
 }
