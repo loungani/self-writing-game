@@ -41,7 +41,7 @@ public class Game {
 		if (option == Option.START_GAME) {
 			createNewGameFile();
 		} else if (option == Option.LOAD_SAVE) {
-			// loadSaveFile();
+			loadSaveFile();
 		} else if (option == Option.EXIT) {
 			quit();
 		}
@@ -73,6 +73,46 @@ public class Game {
 				throw new IllegalArgumentException("Unlisted option passed to createNewGameFile.");
 			}
 		}
+	}
+	
+	private void loadSaveFile() {
+		Option[] loadOptions = {Option.LOAD_GAMEFILE, Option.MAIN_MENU};
+		Boolean needInput = true;
+		while (needInput) {
+			UIResponse response = ui.prompt(loadOptions);
+			Option option = response.getOption();
+			if (option == Option.LOAD_GAMEFILE) {
+				String loadFile = response.getArgs().get(0);
+				if (!alreadyExists(loadFile)) {
+					ui.inform("No such file with tha name exists.\n");
+				} else {
+					String current_dir = null;
+					try {
+						current_dir = new java.io.File(".").getCanonicalPath();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					File file = new File(current_dir + "\\src\\" + loadFile);
+					needInput = false;
+					this.gameFile = loadFile;
+					beginning = readGame(file);
+					start(beginning);
+				}
+			} else if (option == Option.MAIN_MENU) {
+				mainMenu();
+				needInput = false;
+			} else {
+					// TODO: Error logging
+					throw new IllegalArgumentException("Unlisted option passed to loadGameFile.");
+			}
+		}
+	}
+
+	private TreeNode<Path> readGame(File file) {
+		GameReader gr = new TextFileReader();
+		TreeNode<Path> beginning = gr.read(file);
+		return beginning;
 	}
 
 	private void start(TreeNode<Path> node) {

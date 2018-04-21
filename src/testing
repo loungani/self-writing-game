@@ -1,0 +1,7 @@
+1524263926931 (Logger): 0;welcome to a;b;1;c;4
+1524263926932 (Logger): 1;welcome to b;d;2;e;3
+1524263926932 (Logger): 2;d loses;lose-
+1524263926932 (Logger): 3;e wins;win+
+1524263926933 (Logger): 4;welcome to c;f;5;g;6
+1524263926933 (Logger): 5;f loses;lose-
+1524263926933 (Logger): 6;g wins;win+

@@ -1,9 +1,13 @@
 package game;
 
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 class Test {
 
@@ -80,7 +84,58 @@ class Test {
 		assertEquals(expected, g.toArray());
 	}
 	
+	@org.junit.jupiter.api.Test
+	void loadGameTest() {
+		String loadFile = "testing";
+		String current_dir = null;
+		try {
+			current_dir = new java.io.File(".").getCanonicalPath();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File file = new File(current_dir + "\\src\\" + loadFile);
+		GameReader gr = new TextFileReader();
+		TreeNode<Path> beginning = gr.read(file);
 
+		ArrayList<TreeNode<Path>> arr = beginning.toArray();
+		
+		TreeNode<Path> node = arr.get(1);
+		assertEquals("welcome to b", node.getData().getPathText());
+		assertEquals("b", node.getData().getChoiceText());
+		assertTrue(node.parent == beginning);
+		TreeNode<Path> b = node;
+		
+		node = arr.get(2);
+		assertEquals("d loses", node.getData().getPathText());
+		assertEquals("d", node.getData().getChoiceText());
+		assertTrue(node.getData().isDeathNode());
+		assertTrue(node.parent == b);
+		
+		node = arr.get(3);
+		assertEquals("e wins", node.getData().getPathText());
+		assertEquals("e", node.getData().getChoiceText());
+		assertTrue(node.getData().isWinNode());
+		assertTrue(node.parent == b);
+		
+		node = arr.get(4);
+		assertEquals("welcome to c", node.getData().getPathText());
+		assertEquals("c", node.getData().getChoiceText());
+		assertTrue(node.parent == beginning);
+		TreeNode<Path> c = node;
+		
+		node = arr.get(5);
+		assertEquals("f loses", node.getData().getPathText());
+		assertEquals("f", node.getData().getChoiceText());
+		assertTrue(node.getData().isDeathNode());
+		assertTrue(node.parent == c);
+		
+		node = arr.get(6);
+		assertEquals("g wins", node.getData().getPathText());
+		assertEquals("g", node.getData().getChoiceText());
+		assertTrue(node.getData().isWinNode());
+		assertTrue(node.parent == c);
+	}
 }
 
 

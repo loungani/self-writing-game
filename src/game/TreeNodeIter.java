@@ -8,7 +8,7 @@ public class TreeNodeIter<T> implements Iterator<TreeNode<T>> {
 		ProcessParent, ProcessChildCurNode, ProcessChildSubNode
 	}
 
-	private TreeNode<T> treeNode;
+	protected TreeNode<T> treeNode;
 
 	public TreeNodeIter(TreeNode<T> treeNode) {
 		this.treeNode = treeNode;
@@ -16,14 +16,13 @@ public class TreeNodeIter<T> implements Iterator<TreeNode<T>> {
 		this.childrenCurNodeIter = treeNode.children.iterator();
 	}
 
-	private ProcessStages doNext;
-	private TreeNode<T> next;
-	private Iterator<TreeNode<T>> childrenCurNodeIter;
-	private Iterator<TreeNode<T>> childrenSubNodeIter;
+	protected ProcessStages doNext;
+	protected TreeNode<T> next;
+	protected Iterator<TreeNode<T>> childrenCurNodeIter;
+	protected Iterator<TreeNode<T>> childrenSubNodeIter;
 
 	@Override
 	public boolean hasNext() {
-
 		if (this.doNext == ProcessStages.ProcessParent) {
 			this.next = this.treeNode;
 			this.doNext = ProcessStages.ProcessChildCurNode;
@@ -68,5 +67,4 @@ public class TreeNodeIter<T> implements Iterator<TreeNode<T>> {
 	public void remove() {
 		throw new UnsupportedOperationException();
 	}
-
 }

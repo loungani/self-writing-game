@@ -30,6 +30,10 @@ public class TreeNode<T> implements Iterable<TreeNode<T>> {
 
 	public TreeNode<T> addChild(T child) {
 		TreeNode<T> childNode = new TreeNode<T>(child);
+		return addChildNode(childNode);
+	}
+	
+	public TreeNode<T> addChildNode(TreeNode<T> childNode) {
 		childNode.parent = this;
 		this.children.add(childNode);
 		this.registerChildForSearch(childNode);
