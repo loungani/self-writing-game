@@ -20,7 +20,6 @@ public class TextFileReader implements GameReader {
 		}
 		while (in.hasNextLine()) {
 			String s = in.nextLine();
-			System.out.println("Reading line: " + s);
 			lines.add(s);
 			// TODO: Parse
 		}
@@ -47,7 +46,6 @@ public class TextFileReader implements GameReader {
 					throw new IllegalStateException("Not win or lose node argument, instead is: " + subStrings[2]);
 				}
 			}
-			System.out.println("Adding path p where text is: " + p.getPathText());
 			node = new TreeNode<Path>(p);
 			arr.add(node);
 		}
@@ -63,7 +61,6 @@ public class TextFileReader implements GameReader {
 					TreeNode<Path> child = arr.get(childIndex);
 					child.getData().setChoiceText(subStrings[j]);
 					current.addChildNode(child);
-					System.out.println("Added child: " + child.getData().getPathText() + " to parent: " + current.getData().getPathText());
 				}
 			}
 		}
