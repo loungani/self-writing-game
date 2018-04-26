@@ -19,7 +19,7 @@ public class Game {
 	
 	public Game() {
 		running = true;
-		ui = new CommandLineUserInterface();
+		ui = new GraphicalUserInterface();
 		ui.addOption("Start new game.", Option.START_GAME);
 		ui.addOption("Load saved game.", Option.LOAD_SAVE);
 		ui.addOption("Exit program.", Option.EXIT);
