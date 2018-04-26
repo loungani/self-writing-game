@@ -15,8 +15,8 @@ public class TextFileWriter implements GameWriter {
 			sb.append(i + ";");
 			Path current = arr.get(i).getData();
 			sb.append(current.getPathText() + ";");
-			if (current.isDeathNode()) { sb.append("lose-"); }
-			if (current.isWinNode()) { sb.append("win+"); }
+			if (current.isDeathNode()) { sb.append("lose--"); }
+			if (current.isWinNode()) { sb.append("win++"); }
 			List<TreeNode<Path>> children = arr.get(i).children;
 			for (TreeNode<Path> child : children) {
 				sb.append(child.getData().getChoiceText() + ";");

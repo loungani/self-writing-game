@@ -207,7 +207,7 @@ public class Game {
 		Game game = new Game();
 		while (game.running) {
 			game.mainMenu();
-			System.out.println("Testing outer loop. Probably shouldn't hit here unless about to exit.");
+			System.out.println("Exiting program.");
 		}
 	}
 	
