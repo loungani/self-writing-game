@@ -76,10 +76,11 @@ public class GraphicalUserInterface implements UserInterface {
 		for (int i = 0; i < prompts.size(); i++) {
 			sb.append("Option " + (i+1) + ") " + prompts.get(i) + "\n");
 		}
-		inform(sb.toString());
-		int optionNum = getInputInt("Choose option (enter number):");
+		sb.append("\nChoose option (enter number):");
+		int optionNum = getInputInt(sb.toString());
 		while (optionNum < 1 || optionNum > totalOptions) {
-			optionNum = getInputInt("Invalid option. Please choose between 1 to " + totalOptions);
+			optionNum = getInputInt(sb.toString() + 
+					"\nInvalid option. Please choose between 1 to " + totalOptions);
 		}
 		optionNum--; // Computers like to start arrays at 0, humans like to start lists at 1
 		return optionNum;
